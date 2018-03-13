@@ -1,0 +1,18 @@
+plugins {
+    id "com.github.dcendents.android-maven" version "2.0"
+}
+apply plugin: 'com.android.library'
+apply from: '../buildsystem/common.gradle'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api "com.android.support:appcompat-v7:$supportVersion"
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.groupId = 'com.chattylabs.module'
+        pom.version = android.defaultConfig.versionName
+        pom.artifactId = 'core'
+    }
+}
