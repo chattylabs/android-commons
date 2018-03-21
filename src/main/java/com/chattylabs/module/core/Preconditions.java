@@ -30,7 +30,6 @@ import java.util.Locale;
  *
  * Port from the Android Libs.
  */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class Preconditions {
     public static void checkArgument(boolean expression) {
         if (!expression) {

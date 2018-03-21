@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat;
 
 public abstract class PermissionsHelper {
 
-    protected void check(Activity activity, String[] permissions) {
+    public static void check(Activity activity, String[] permissions) {
         if (needsPermissions(activity.getApplicationContext(), permissions)) {
 
             // Should we show an explanation?
@@ -29,7 +29,7 @@ public abstract class PermissionsHelper {
         }
     }
 
-    private boolean needsPermissions(Context context, String[] permissions) {
+    private static boolean needsPermissions(Context context, String[] permissions) {
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
                 return true;
@@ -37,7 +37,7 @@ public abstract class PermissionsHelper {
         return false;
     }
 
-    private boolean needsExplanation(Activity activity, String[] permissions) {
+    private static boolean needsExplanation(Activity activity, String[] permissions) {
         for (String permission : permissions) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission))
                 return true;

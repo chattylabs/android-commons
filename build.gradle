@@ -4,15 +4,19 @@ plugins {
 apply plugin: 'com.android.library'
 apply from: '../buildsystem/common.gradle'
 
+group = 'com.chattylabs.module'
+def version = android.defaultConfig.versionName
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api "com.android.support:appcompat-v7:$supportVersion"
+    api "com.android.support.test.espresso:espresso-idling-resource:3.0.1"
 }
 
 install {
     repositories.mavenInstaller {
-        pom.groupId = 'com.chattylabs.module'
-        pom.version = android.defaultConfig.versionName
-        pom.artifactId = 'core'
+        pom.groupId = project.group
+        pom.version = version
+        pom.artifactId = project.name
     }
 }
