@@ -1,4 +1,4 @@
-package com.chattylabs.module.core;
+package com.chattylabs.sdk.android.core;
 
 import android.app.Application;
 import android.app.Service;

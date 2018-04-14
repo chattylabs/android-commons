@@ -1,4 +1,4 @@
-package com.chattylabs.module.core.internal.android;
+package com.chattylabs.sdk.android.core.internal.android;
 
 import android.os.Handler;
 import android.os.Looper;

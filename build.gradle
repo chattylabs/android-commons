@@ -4,7 +4,7 @@ plugins {
 apply plugin: 'com.android.library'
 apply from: '../buildsystem/common.gradle'
 
-group = 'com.chattylabs.module'
+group = 'com.chattylabs.sdk.android'
 def version = android.defaultConfig.versionName
 
 dependencies {

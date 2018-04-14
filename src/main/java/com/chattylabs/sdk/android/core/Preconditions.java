@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.chattylabs.module.core;
+package com.chattylabs.sdk.android.core;
 
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
