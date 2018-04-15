@@ -11,12 +11,22 @@ public class StringUtils {
     private static Random rand = new Random();
     private static LinkedHashMap<String, Integer> lastRandMap = new LinkedHashMap<>();
 
+    public static String capitalize(String original) {
+        if (original == null || original.length() == 0) {
+            return original;
+        }
+        return original.substring(0, 1).toUpperCase() + original.substring(1);
+    }
+
     public static String getRandom(String key, String[] strings) {
+        if (strings == null || strings.length == 0) throw new IllegalArgumentException("You must provide an array of strings");
         int a;
-        if (!lastRandMap.containsKey(key)) { lastRandMap.put(key, 0); }
-        do {
-            a = rand.nextInt(strings.length);
-        } while (a == lastRandMap.get(key));
+        if (!lastRandMap.containsKey(key)) { lastRandMap.put(key, -1); }
+        if (strings.length > 1)
+            do {
+                a = rand.nextInt(strings.length);
+            } while (a == lastRandMap.get(key));
+        else a = 0;
         lastRandMap.put(key, a);
         return strings[a];
     }
