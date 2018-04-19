@@ -9,7 +9,7 @@ plugins {
 apply plugin: 'com.android.library'
 apply from: 'buildsystem/dependencies.gradle'
 apply from: 'buildsystem/versioning.gradle'
-apply from: 'buildsystem/common.gradle'
+apply from: 'buildsystem/android.gradle'
 
 group = 'com.chattylabs.sdk.android'
 def version = android.defaultConfig.versionName
