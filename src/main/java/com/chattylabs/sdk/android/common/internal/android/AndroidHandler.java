@@ -1,4 +1,4 @@
-package com.chattylabs.sdk.android.core.internal.android;
+package com.chattylabs.sdk.android.common.internal.android;
 
 public interface AndroidHandler {
 

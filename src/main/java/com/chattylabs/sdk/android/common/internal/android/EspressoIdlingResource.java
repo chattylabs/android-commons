@@ -1,4 +1,4 @@
-package com.chattylabs.sdk.android.core.internal.android;
+package com.chattylabs.sdk.android.common.internal.android;
 
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;

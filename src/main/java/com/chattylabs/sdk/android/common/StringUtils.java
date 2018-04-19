@@ -1,4 +1,4 @@
-package com.chattylabs.sdk.android.core;
+package com.chattylabs.sdk.android.common;
 
 import java.util.LinkedHashMap;
 import java.util.Random;

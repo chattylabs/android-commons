@@ -1,4 +1,4 @@
-package com.chattylabs.sdk.android.core;
+package com.chattylabs.sdk.android.common;
 
 import android.os.Build;
 import android.text.Html;
