@@ -1,8 +1,3 @@
-buildscript {
-    repositories {
-        mavenLocal()
-    }
-}
 plugins {
     id "com.github.dcendents.android-maven" version "2.0"
 }
@@ -19,6 +14,6 @@ install {
     repositories.mavenInstaller {
         pom.groupId = project.group
         pom.version = project.version
-        pom.artifactId = project.name
+        pom.artifactId = project.name.replace("sdk-","")
     }
 }
