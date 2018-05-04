@@ -5,9 +5,12 @@ public class Tag {
 
     private static final int CHOP_LENGTH = 22;
 
-    public static String make(Class<?> anyClass){
-        final String className = anyClass.getSimpleName();
+    public static String make(String className){
         return CHOP_LENGTH > className.length() ?  ellipsize(className) : className.substring(0, CHOP_LENGTH) + "..";
+    }
+
+    public static String make(Class<?> anyClass){
+        return make(anyClass.getSimpleName());
     }
 
      private static String ellipsize(String str) {
