@@ -15,5 +15,6 @@ install {
         pom.groupId = project.group
         pom.version = project.version
         pom.artifactId = project.name.replace("sdk-","")
+        println "install <${pom.groupId}:${pom.artifactId}:${pom.version}>"
     }
 }
