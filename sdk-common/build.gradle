@@ -1,0 +1,26 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.8.1'
+    }
+}
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+apply from: '../buildsystem/android.gradle'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api "com.android.support:appcompat-v7:$supportVersion"
+    api "com.android.support.test.espresso:espresso-idling-resource:3.0.1"
+}
+
+publish {
+    userOrg = 'chattylabs'
+    groupId = project.group
+    artifactId = project.name.replace("sdk-", "")
+    publishVersion = project.version
+    desc = 'Android Common Code SDK'
+    website = 'https://github.com/chattylabs/android-sdk-common'
+}
