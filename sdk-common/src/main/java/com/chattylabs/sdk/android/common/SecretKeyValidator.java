@@ -7,21 +7,28 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class SecretKeyValidator extends AsyncTask<Void, Void, Boolean> {
-    private static final long CACHED_TIME = TimeUnit.DAYS.toMillis(5);
     private static final String SECRET_KEY_ENDPOINT =
             "https://us-central1-chattylabs-98c57.cloudfunctions.net/secretKey";
 
-    private File directory;
+    private File currentFileInstance;
     private OnKeySuccess onSuccess;
     private OnKeyError onError;
     private String secretKey;
+    private String packageName;
+    private long exceedTime;
 
-    public SecretKeyValidator(String secretKey, File directory, OnKeySuccess onSuccess, OnKeyError onError) {
+    public SecretKeyValidator(String secretKey,
+                              String packageName,
+                              File directory,
+                              long exceedTime,
+                              OnKeySuccess onSuccess,
+                              OnKeyError onError) {
         this.secretKey = secretKey;
-        this.directory = directory;
+        this.packageName = packageName;
+        this.exceedTime = exceedTime;
+        this.currentFileInstance = new File(directory.getAbsolutePath(), secretKey);
         this.onSuccess = onSuccess;
         this.onError = onError;
     }
@@ -38,7 +45,10 @@ public class SecretKeyValidator extends AsyncTask<Void, Void, Boolean> {
             throw new IllegalAccessError("The secret key does not match");
         } else {
             try {
-                new File(directory.getAbsolutePath(), secretKey).createNewFile();
+                boolean isExceeding = currentFileInstance.exists() && (System.currentTimeMillis() - currentFileInstance.lastModified()) > exceedTime;
+                if (!currentFileInstance.exists() || isExceeding) {
+                    currentFileInstance.createNewFile();
+                }
             } catch (IOException e) {
                 if (BuildConfig.DEBUG) {
                     e.printStackTrace();
@@ -49,10 +59,8 @@ public class SecretKeyValidator extends AsyncTask<Void, Void, Boolean> {
     }
 
     private boolean validate() {
-        File currentFileInstance = new File(directory.getAbsolutePath() +
-                File.separator + secretKey);
-        if (currentFileInstance.exists() &&
-            (System.currentTimeMillis() - currentFileInstance.lastModified()) <= CACHED_TIME) {
+        boolean isExceeding = (System.currentTimeMillis() - currentFileInstance.lastModified()) > exceedTime;
+        if (currentFileInstance.exists() && !isExceeding) {
                 return true;
         }
         boolean successful = false;
@@ -60,6 +68,7 @@ public class SecretKeyValidator extends AsyncTask<Void, Void, Boolean> {
         try {
             Map<String, String> parameters = new HashMap<>();
             parameters.put("key", secretKey);
+            parameters.put("package", packageName);
             urlConnection = new HttpURLConnectionBuilder(SECRET_KEY_ENDPOINT)
                     .setRequestMethod("POST")
                     .writeFormFields(parameters)
