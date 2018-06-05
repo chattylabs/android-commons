@@ -5,10 +5,10 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 public class ManifestUtils {
-    private static final String SECRET_KEY = "com.chattylabs.sdk.android.secretKey";
+    private static final String APP_ID = "com.chattylabs.sdk.APP_ID";
 
-    public static String getSecretKey(Context context) {
-        return getManifestString(context, SECRET_KEY);
+    public static String getAppId(Context context) {
+        return getManifestString(context, APP_ID);
     }
 
     public static String getManifestString(Context context, String key) {

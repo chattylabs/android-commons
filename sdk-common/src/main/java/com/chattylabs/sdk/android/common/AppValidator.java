@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SecretKeyValidator extends AsyncTask<Void, Void, Boolean> {
+public class AppValidator extends AsyncTask<Void, Void, Boolean> {
     private static final String SECRET_KEY_ENDPOINT =
             "https://us-central1-chattylabs-98c57.cloudfunctions.net/secretKey";
 
@@ -19,12 +19,12 @@ public class SecretKeyValidator extends AsyncTask<Void, Void, Boolean> {
     private String packageName;
     private long exceedTime;
 
-    public SecretKeyValidator(String secretKey,
-                              String packageName,
-                              File directory,
-                              long exceedTime,
-                              OnKeySuccess onSuccess,
-                              OnKeyError onError) {
+    public AppValidator(String secretKey,
+                        String packageName,
+                        File directory,
+                        long exceedTime,
+                        OnKeySuccess onSuccess,
+                        OnKeyError onError) {
         this.secretKey = secretKey;
         this.packageName = packageName;
         this.exceedTime = exceedTime;
