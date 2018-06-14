@@ -12,7 +12,7 @@ public class AppValidator extends AsyncTask<Void, Void, Boolean> {
     private static final String SECRET_KEY_ENDPOINT =
             "https://us-central1-chattylabs-98c57.cloudfunctions.net/secretKey";
 
-    private File currentFileInstance;
+    private File currentFile;
     private OnKeySuccess onSuccess;
     private OnKeyError onError;
     private String secretKey;
@@ -21,14 +21,14 @@ public class AppValidator extends AsyncTask<Void, Void, Boolean> {
 
     public AppValidator(String secretKey,
                         String packageName,
-                        File directory,
+                        File secretKeyFile,
                         long exceedTime,
                         OnKeySuccess onSuccess,
                         OnKeyError onError) {
         this.secretKey = secretKey;
         this.packageName = packageName;
         this.exceedTime = exceedTime;
-        this.currentFileInstance = new File(directory.getAbsolutePath(), secretKey);
+        this.currentFile = secretKeyFile;
         this.onSuccess = onSuccess;
         this.onError = onError;
     }
@@ -45,9 +45,10 @@ public class AppValidator extends AsyncTask<Void, Void, Boolean> {
             throw new IllegalAccessError("The secret key does not match");
         } else {
             try {
-                boolean isExceeding = currentFileInstance.exists() && (System.currentTimeMillis() - currentFileInstance.lastModified()) > exceedTime;
-                if (!currentFileInstance.exists() || isExceeding) {
-                    currentFileInstance.createNewFile();
+                boolean isExceeding = currentFile.exists() &&
+                        (System.currentTimeMillis() - currentFile.lastModified()) > exceedTime;
+                if (!currentFile.exists() || isExceeding) {
+                    currentFile.createNewFile();
                 }
             } catch (IOException e) {
                 if (BuildConfig.DEBUG) {
@@ -59,8 +60,8 @@ public class AppValidator extends AsyncTask<Void, Void, Boolean> {
     }
 
     private boolean validate() {
-        boolean isExceeding = (System.currentTimeMillis() - currentFileInstance.lastModified()) > exceedTime;
-        if (currentFileInstance.exists() && !isExceeding) {
+        boolean isExceeding = (System.currentTimeMillis() - currentFile.lastModified()) > exceedTime;
+        if (currentFile.exists() && !isExceeding) {
                 return true;
         }
         boolean successful = false;
