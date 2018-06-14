@@ -1,6 +1,7 @@
 package com.chattylabs.sdk.android.common;
 
 import android.os.AsyncTask;
+import android.support.annotation.VisibleForTesting;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,25 +13,33 @@ public class AppValidator extends AsyncTask<Void, Void, Boolean> {
     private static final String SECRET_KEY_ENDPOINT =
             "https://us-central1-chattylabs-98c57.cloudfunctions.net/secretKey";
 
-    private File currentFileInstance;
+    private File currentFile;
     private OnKeySuccess onSuccess;
     private OnKeyError onError;
     private String secretKey;
     private String packageName;
     private long exceedTime;
+    private String endpoint;
 
     public AppValidator(String secretKey,
                         String packageName,
-                        File directory,
+                        File secretKeyFile,
                         long exceedTime,
                         OnKeySuccess onSuccess,
                         OnKeyError onError) {
         this.secretKey = secretKey;
         this.packageName = packageName;
         this.exceedTime = exceedTime;
-        this.currentFileInstance = new File(directory.getAbsolutePath(), secretKey);
+        this.currentFile = secretKeyFile;
         this.onSuccess = onSuccess;
         this.onError = onError;
+
+        setEndpoint(SECRET_KEY_ENDPOINT);
+    }
+
+    @VisibleForTesting
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
     }
 
     @Override
@@ -45,9 +54,10 @@ public class AppValidator extends AsyncTask<Void, Void, Boolean> {
             throw new IllegalAccessError("The secret key does not match");
         } else {
             try {
-                boolean isExceeding = currentFileInstance.exists() && (System.currentTimeMillis() - currentFileInstance.lastModified()) > exceedTime;
-                if (!currentFileInstance.exists() || isExceeding) {
-                    currentFileInstance.createNewFile();
+                boolean isExceeding = currentFile.exists() &&
+                        (System.currentTimeMillis() - currentFile.lastModified()) > exceedTime;
+                if (!currentFile.exists() || isExceeding) {
+                    currentFile.createNewFile();
                 }
             } catch (IOException e) {
                 if (BuildConfig.DEBUG) {
@@ -59,8 +69,8 @@ public class AppValidator extends AsyncTask<Void, Void, Boolean> {
     }
 
     private boolean validate() {
-        boolean isExceeding = (System.currentTimeMillis() - currentFileInstance.lastModified()) > exceedTime;
-        if (currentFileInstance.exists() && !isExceeding) {
+        boolean isExceeding = (System.currentTimeMillis() - currentFile.lastModified()) > exceedTime;
+        if (currentFile.exists() && !isExceeding) {
                 return true;
         }
         boolean successful = false;
@@ -69,7 +79,7 @@ public class AppValidator extends AsyncTask<Void, Void, Boolean> {
             Map<String, String> parameters = new HashMap<>();
             parameters.put("key", secretKey);
             parameters.put("package", packageName);
-            urlConnection = new HttpURLConnectionBuilder(SECRET_KEY_ENDPOINT)
+            urlConnection = new HttpURLConnectionBuilder(endpoint)
                     .setRequestMethod("POST")
                     .writeFormFields(parameters)
                     .build();
