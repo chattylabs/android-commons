@@ -10,6 +10,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 apply from: '../buildsystem/android.gradle'
 
+group = 'com.chattylabs.sdk.android'
+version = android.defaultConfig.versionName
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
