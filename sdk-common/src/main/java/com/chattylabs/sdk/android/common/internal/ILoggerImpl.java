@@ -3,7 +3,14 @@ package com.chattylabs.sdk.android.common.internal;
 import android.util.Log;
 import com.chattylabs.sdk.android.common.BuildConfig;
 
+import javax.inject.Inject;
+
 public class ILoggerImpl implements ILogger {
+
+    @Inject
+    public ILoggerImpl() {
+        i("ILogger", "Impl from common");
+    }
 
     @Override
     public void v(String tag, String msg, Object... args) {
