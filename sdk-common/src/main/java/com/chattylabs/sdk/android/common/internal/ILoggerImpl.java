@@ -1,16 +1,10 @@
 package com.chattylabs.sdk.android.common.internal;
 
 import android.util.Log;
+
 import com.chattylabs.sdk.android.common.BuildConfig;
 
-import javax.inject.Inject;
-
 public class ILoggerImpl implements ILogger {
-
-    @Inject
-    public ILoggerImpl() {
-        i("ILogger", "Impl from common");
-    }
 
     @Override
     public void v(String tag, String msg, Object... args) {
@@ -42,7 +36,7 @@ public class ILoggerImpl implements ILogger {
 
     @Override
     public void logException(Throwable ex) {
-        Log.wtf("", ex);
+        Log.wtf("ILogger", ex);
     }
 
     private void sendByLog(int priority, String tag, String msg, Object... args) {
