@@ -4,7 +4,14 @@ import android.util.Log;
 
 import com.chattylabs.sdk.android.common.BuildConfig;
 
+import javax.inject.Inject;
+
+@dagger.Reusable
 public class ILoggerImpl implements ILogger {
+
+    @Inject
+    public ILoggerImpl() {
+    }
 
     @Override
     public void v(String tag, String msg, Object... args) {

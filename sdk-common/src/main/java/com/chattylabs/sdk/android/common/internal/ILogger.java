@@ -1,5 +1,6 @@
 package com.chattylabs.sdk.android.common.internal;
 
+@dagger.Reusable
 public interface ILogger {
 
     void v(String tag, String msg, Object... args);
