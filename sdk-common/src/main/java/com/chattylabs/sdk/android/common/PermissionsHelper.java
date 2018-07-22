@@ -9,7 +9,7 @@ import android.support.v4.content.ContextCompat;
 
 public abstract class PermissionsHelper {
 
-    public static final int REQUEST_CODE = 100010;
+    public static final int REQUEST_CODE = 1010;
 
     public static void check(Activity activity, String[] permissions, Runnable runnable) {
         if (needsPermissions(activity.getApplicationContext(), permissions)) {
