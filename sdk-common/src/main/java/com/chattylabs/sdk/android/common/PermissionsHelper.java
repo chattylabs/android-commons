@@ -27,7 +27,7 @@ public abstract class PermissionsHelper {
             } else {
                 // No explanation needed, we can request the permission.
 
-                ActivityCompat.requestPermissions(activity, permissions, 10);
+                ActivityCompat.requestPermissions(activity, permissions, REQUEST_CODE);
             }
         } else {
             runnable.run();

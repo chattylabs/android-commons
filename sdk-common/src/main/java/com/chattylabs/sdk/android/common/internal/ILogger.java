@@ -15,5 +15,7 @@ public interface ILogger {
 
     void setup(String userId);
 
+    void setBuildDebug(boolean debug);
+
     void logException(Throwable ex);
 }

@@ -2,12 +2,11 @@ package com.chattylabs.sdk.android.common.internal;
 
 import android.util.Log;
 
-import com.chattylabs.sdk.android.common.BuildConfig;
-
 import javax.inject.Inject;
 
 @dagger.Reusable
 public class ILoggerImpl implements ILogger {
+    private boolean isBuildDebug;
 
     @Inject
     public ILoggerImpl() {
@@ -42,12 +41,17 @@ public class ILoggerImpl implements ILogger {
     public void setup(String userId) {}
 
     @Override
+    public void setBuildDebug(boolean debug) {
+        this.isBuildDebug = debug;
+    }
+
+    @Override
     public void logException(Throwable ex) {
         Log.wtf("ILogger", ex);
     }
 
     private void sendByLog(int priority, String tag, String msg, Object... args) {
-        if (BuildConfig.DEBUG) {
+        if (isBuildDebug) {
             Log.println(priority, tag, formatMessage(msg, args));
         }
     }
