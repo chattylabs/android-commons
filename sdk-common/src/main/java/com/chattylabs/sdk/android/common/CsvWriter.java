@@ -29,7 +29,7 @@ public class CsvWriter implements RequiredPermissions {
     private BufferedWriter file;
     private String empty;
     private String[] headers;
-    private ExecutorService executorService;
+    private ThreadUtils.SerialThread serialThread;
 
     public static CsvWriter getInstance() {
         return instance == null ? (instance = new CsvWriter()) : instance;
@@ -54,13 +54,13 @@ public class CsvWriter implements RequiredPermissions {
         this.filename = filename;
         this.delimiter = delimiter;
         this.empty = empty;
-        this.executorService = Executors.newSingleThreadExecutor();
+        this.serialThread = ThreadUtils.newSerialThread();
         return this;
     }
 
     public void addHeaders(Context context, String... headers) {
         this.headers = headers;
-        executorService.submit(() -> init(context, headers));
+        serialThread.addTask(() -> init(context, headers));
     }
 
     private void init(Context context, String... headers) {
@@ -96,7 +96,7 @@ public class CsvWriter implements RequiredPermissions {
 
     @SafeVarargs
     public final void write(Context context, Pair<String, String>... keyValues) {
-        executorService.submit(() -> writeLocal(context, keyValues));
+        serialThread.addTask(() -> writeLocal(context, keyValues));
     }
 
     @SafeVarargs
@@ -142,9 +142,8 @@ public class CsvWriter implements RequiredPermissions {
 
         try {
             file.close();
-            executorService.shutdown();
-            executorService.awaitTermination(3, TimeUnit.SECONDS);
-        } catch (IOException | InterruptedException e) {
+            serialThread.shutdown();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
