@@ -8,7 +8,11 @@ public class ThreadUtils {
 
     public interface SerialThread {
         void addTask(Runnable task);
+
+        boolean acceptTask();
+
         void shutdown();
+
         void shutdownNow();
     }
 
@@ -18,7 +22,12 @@ public class ThreadUtils {
 
             @Override
             public void addTask(Runnable task) {
-                executorService.submit(task);
+                if (acceptTask()) executorService.submit(task);
+            }
+
+            @Override
+            public boolean acceptTask() {
+                return !executorService.isTerminated() && !executorService.isShutdown();
             }
 
             @Override
