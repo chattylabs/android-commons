@@ -1,4 +1,4 @@
-package com.chattylabs.sdk.android.common;
+package com.chattylabs.android.commons;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-package com.chattylabs.sdk.android.common.internal;
+package com.chattylabs.android.commons.internal;
 
 @dagger.Reusable
 public interface ILogger {

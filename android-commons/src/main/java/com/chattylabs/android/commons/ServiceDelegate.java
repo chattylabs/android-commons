@@ -1,4 +1,4 @@
-package com.chattylabs.sdk.android.common;
+package com.chattylabs.android.commons;
 
 import android.app.Application;
 import android.app.Service;

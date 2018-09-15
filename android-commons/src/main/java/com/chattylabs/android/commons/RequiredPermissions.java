@@ -1,4 +1,4 @@
-package com.chattylabs.sdk.android.common;
+package com.chattylabs.android.commons;
 
 public interface RequiredPermissions {
 

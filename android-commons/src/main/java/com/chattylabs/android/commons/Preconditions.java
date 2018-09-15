@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.chattylabs.sdk.android.common;
+package com.chattylabs.android.commons;
 
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
 import android.text.TextUtils;
 
 import java.util.Collection;

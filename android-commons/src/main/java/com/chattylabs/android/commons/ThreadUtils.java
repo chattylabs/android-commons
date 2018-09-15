@@ -1,4 +1,4 @@
-package com.chattylabs.sdk.android.common;
+package com.chattylabs.android.commons;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
