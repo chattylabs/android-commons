@@ -9,15 +9,14 @@ import android.support.v4.content.ContextCompat;
 
 public abstract class PermissionsHelper {
 
-    public static final int REQUEST_CODE = 1010;
-
-    public static void check(Activity activity, String[] permissions, Runnable runnable) {
-        if (needsPermissions(activity.getApplicationContext(), permissions)) {
+    public static void check(Activity activity, String[] permissions,
+                             Runnable onPermissionsNotNeeded, int requestCode) {
+        if (required(activity.getApplicationContext(), permissions)) {
 
             // Should we show an explanation?
             if (needsExplanation(activity, permissions)) {
 
-                ActivityCompat.requestPermissions(activity, permissions, REQUEST_CODE);
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
 
                 // TODO
                 // Show an explanation to the user *asynchronously* -- don't block
@@ -27,14 +26,14 @@ public abstract class PermissionsHelper {
             } else {
                 // No explanation needed, we can request the permission.
 
-                ActivityCompat.requestPermissions(activity, permissions, REQUEST_CODE);
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
             }
         } else {
-            runnable.run();
+            onPermissionsNotNeeded.run();
         }
     }
 
-    public static boolean needsPermissions(Context context, String[] permissions) {
+    public static boolean required(Context context, String[] permissions) {
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
                 return true;
@@ -42,12 +41,9 @@ public abstract class PermissionsHelper {
         return false;
     }
 
-    public  static boolean isPermissionGranted(@NonNull int[] grantResults) {
-        return grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public static boolean isPermissionRequest(int requestCode) {
-        return requestCode == REQUEST_CODE;
+    public static boolean allGranted(@NonNull int[] grantResults) {
+        for (int perm : grantResults) if (perm == PackageManager.PERMISSION_DENIED) return false;
+        return true;
     }
 
     private static boolean needsExplanation(Activity activity, String[] permissions) {
