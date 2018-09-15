@@ -8,10 +8,25 @@ buildscript {
 }
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.chattylabs.versioning'
 apply from: '../buildsystem/android.gradle'
 
-group = 'com.chattylabs.sdk.android'
-version = android.defaultConfig.versionName
+versioning {
+
+    tagPrefix "version/"
+
+    keywords {
+        minor "[feature]"
+        patch "[bug]", "[patch]"
+    }
+}
+
+android {
+    defaultConfig {
+        versionCode versioning.code()
+        versionName versioning.name()
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -23,14 +38,17 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.15'
     // Test dependencies
     api "com.android.support.test.espresso:espresso-idling-resource:3.0.2"
-    testApi 'org.mockito:mockito-core:2.13.0'
+    testImplementation 'org.mockito:mockito-core:2.13.0'
 }
+
+group = 'com.chattylabs'
+version = android.defaultConfig.versionName
 
 publish {
     userOrg = 'chattylabs'
     groupId = project.group
-    artifactId = project.name.replace("sdk-", "")
+    artifactId = project.name
     publishVersion = project.version
-    desc = 'Android Common Code SDK'
-    website = 'https://github.com/chattylabs/android-sdk-common'
+    desc = 'Android Commons'
+    website = 'https://github.com/chattylabs/android-commons'
 }

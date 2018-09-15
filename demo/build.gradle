@@ -6,7 +6,7 @@ apply from: '../buildsystem/android.gradle'
 
 android {
     defaultConfig {
-        applicationId "com.chattylabs.demo.common"
+        applicationId "com.chattylabs.demo.android.commons"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
