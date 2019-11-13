@@ -1,11 +1,3 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.novoda:bintray-release:0.9.1'
-    }
-}
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.chattylabs.versioning'
@@ -44,14 +36,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
-group = 'com.chattylabs'
-version = android.defaultConfig.versionName
-
-publish {
-    userOrg = 'chattylabs'
-    groupId = project.group
-    artifactId = project.name
-    publishVersion = project.version
-    desc = 'Android Commons'
-    website = 'https://github.com/chattylabs/android-commons'
-}
+description = 'Android Commons'
+ext.website = "https://github.com/chattylabs/android-commons"
+apply from: '../android-buildsystem/publish.gradle'
