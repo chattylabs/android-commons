@@ -3,13 +3,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath 'com.novoda:bintray-release:0.9.1'
     }
 }
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.chattylabs.versioning'
-apply from: '../buildsystem/android.gradle'
+apply from: '../android-buildsystem/android.gradle'
 
 versioning {
 
@@ -22,7 +23,11 @@ versioning {
 }
 
 android {
+    compileSdkVersion 28
+
     defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode versioning.code()
         versionName versioning.name()
     }
@@ -32,7 +37,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Android dependencies
-    api "com.android.support:appcompat-v7:27.1.1"
+    api "com.android.support:appcompat-v7:28.0.0"
     // Dagger
     api 'com.google.dagger:dagger:2.15'
     kapt 'com.google.dagger:dagger-compiler:2.15'
@@ -52,3 +57,5 @@ publish {
     desc = 'Android Commons'
     website = 'https://github.com/chattylabs/android-commons'
 }
+
+apply from: '../android-buildsystem/versioning.gradle'

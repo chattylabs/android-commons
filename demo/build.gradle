@@ -2,17 +2,22 @@ repositories {
     maven { url "https://dl.bintray.com/chattylabs/maven" }
 }
 apply plugin: 'com.android.application'
-apply from: '../buildsystem/android.gradle'
+apply from: '../android-buildsystem/android.gradle'
 
 android {
+
+    compileSdkVersion 28
+
     defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "0.1"
         applicationId "com.chattylabs.demo.android.commons"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    signingConfigs {
-        debug {
-            storeFile file("../buildsystem/debug.keystore")
-        }
+
+        // Enable this option on your own gradle file if you need it
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         debug {
@@ -29,7 +34,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Android dependencies
-    implementation "com.android.support:appcompat-v7:27.1.1"
+    implementation "com.android.support:appcompat-v7:28.0.0"
 
     // Test dependencies
     testImplementation "junit:junit:4.12"
