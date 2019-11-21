@@ -41,6 +41,3 @@ dependencies {
 description = 'Android Commons'
 ext.website = "https://github.com/chattylabs/android-commons"
 apply from: '../android-buildsystem/publish.gradle'
-publish {
-    uploadName = "android-" + project.name.replace("sdk-", "")
-}
